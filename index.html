@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuenta atrás para el cumpleaños</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🎉🎉🎉Cumple de Elena (bigotes😼) en...</h1>
+    <div id="countdown">
+      <div><span id="days">0</span><p>días</p></div>
+      <div><span id="hours">0</span><p>horas</p></div>
+      <div><span id="minutes">0</span><p>minutos</p></div>
+      <div><span id="seconds">0</span><p>segundos</p></div>
+    </div>
+  </div>
+
+  <script>
+    const getNextBirthday = () => {
+      const now = new Date();
+      let birthday = new Date(now.getFullYear(), 4, 26); // 26 de mayo (mes 4 = mayo)
+
+      if (now > birthday) {
+        birthday.setFullYear(birthday.getFullYear() + 1);
+      }
+
+      return birthday.getTime();
+    };
+
+    let birthday = getNextBirthday();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = birthday - now;
+
+      if (distance < 0) {
+        birthday = getNextBirthday(); // recalcula para el siguiente año
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").innerText = days;
+      document.getElementById("hours").innerText = hours;
+      document.getElementById("minutes").innerText = minutes;
+      document.getElementById("seconds").innerText = seconds;
+    };
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
